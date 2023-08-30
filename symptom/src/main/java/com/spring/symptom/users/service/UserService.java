@@ -3,15 +3,17 @@ package com.spring.symptom.users.service;
 import com.spring.symptom.users.dto.UsersDto;
 import com.spring.symptom.users.entity.Users;
 import com.spring.symptom.users.repository.UsersRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-    private UsersRepository usersRepository;
+    private final UsersRepository usersRepository;
 
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     // 회원가입
     public Users register(UsersDto usersDto) {

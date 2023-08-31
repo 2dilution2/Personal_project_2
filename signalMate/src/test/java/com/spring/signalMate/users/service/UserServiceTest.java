@@ -26,12 +26,12 @@ class UserServiceTest {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private UserService userService;
+    private UsersService usersService;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        userService = new UserService(usersRepository, passwordEncoder);
+        usersService = new UsersService(usersRepository, passwordEncoder);
     }
 
     @Test
@@ -46,7 +46,7 @@ class UserServiceTest {
 
         when(usersRepository.findById(userIdToUpdate)).thenReturn(Optional.of(existingUser));
         // When
-        userService.update(userIdToUpdate, usersDto);
+        usersService.update(userIdToUpdate, usersDto);
         // Then
         verify(usersRepository).findById(userIdToUpdate);
         assertEquals(usersDto.getEmail(), existingUser.getEmail());
@@ -63,7 +63,7 @@ class UserServiceTest {
         usersDto.setEmail("test@example.com");
         usersDto.setName("John Doe");
 
-        assertThrows(RuntimeException.class, () -> userService.update(nonExistingUserIdToUpdate, usersDto), "사용자를 찾을 수 없습니다.");
+        assertThrows(RuntimeException.class, () -> usersService.update(nonExistingUserIdToUpdate, usersDto), "사용자를 찾을 수 없습니다.");
 
         verify(usersRepository).findById(nonExistingUserIdToUpdate);
     }
@@ -76,7 +76,7 @@ class UserServiceTest {
         Long userIdToDelete = 1L;
         when(usersRepository.existsById(userIdToDelete)).thenReturn(true);
         // When
-        userService.delete(userIdToDelete);
+        usersService.delete(userIdToDelete);
         // Then
         verify(usersRepository).existsById(userIdToDelete);
         verify(usersRepository).deleteById(userIdToDelete);
@@ -88,7 +88,7 @@ class UserServiceTest {
         Long nonExistingUserIdToDelete= 100L;
         when(usersRepository.existsById(nonExistingUserIdToDelete)).thenReturn(false);
 
-        assertThrows(RuntimeException.class, () -> userService.delete(nonExistingUserIdToDelete), "사용자를 찾을 수 없습니다.");
+        assertThrows(RuntimeException.class, () -> usersService.delete(nonExistingUserIdToDelete), "사용자를 찾을 수 없습니다.");
 
         verify(usersRepository).existsById(nonExistingUserIdToDelete);
     }

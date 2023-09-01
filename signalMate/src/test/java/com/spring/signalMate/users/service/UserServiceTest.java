@@ -1,20 +1,22 @@
 package com.spring.signalMate.users.service;
 
 import com.spring.signalMate.users.dto.UsersDto;
+import com.spring.signalMate.users.entity.Users;
 import com.spring.signalMate.users.repository.UsersRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
+@SpringBootTest
 class UserServiceTest {
 
     @Mock
@@ -23,50 +25,71 @@ class UserServiceTest {
     @Mock
     private PasswordEncoder passwordEncoder;
 
-    private UserService userService;
+    @Autowired
+    private UsersService usersService;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        userService = new UserService(usersRepository, passwordEncoder);
+        usersService = new UsersService(usersRepository, passwordEncoder);
     }
 
     @Test
-    void register_ExistingEmail_ThrowsException() {
+    void update_ExistingUser_Success() {
         // Given
-        UsersDto usersDTO = new UsersDto();
-        usersDTO.setEmail("existing@example.com");
+        Long userIdToUpdate = 1L;
+        Users existingUser = new Users();
+        existingUser.setUserId(userIdToUpdate);
+        existingUser.setEmail("test@example.com");
+        UsersDto usersDto = new UsersDto();
+        usersDto.setEmail("updated@example.com");
 
-        when(usersRepository.existsByEmail(anyString())).thenReturn(true);
-
-        // When and Then
-        assertThrows(RuntimeException.class, () -> userService.register(usersDTO), "이미 존재하는 이메일 입니다.");
-
-        verify(usersRepository, times(1)).existsByEmail(anyString());
+        when(usersRepository.findById(userIdToUpdate)).thenReturn(Optional.of(existingUser));
+        // When
+        usersService.update(userIdToUpdate, usersDto);
+        // Then
+        verify(usersRepository).findById(userIdToUpdate);
+        assertEquals(usersDto.getEmail(), existingUser.getEmail());
+        verify(usersRepository).save(existingUser);
     }
 
     @Test
-    void update_NonExistingUser_ThrowsException() {
+    void update_NonExistingUserId_ThrowsException() {
         // Given
-        UsersDto usersDTO = new UsersDto();
-        usersDTO.setEmail("test@example.com");
+        Long nonExistingUserIdToUpdate = 100L;
+        when(usersRepository.findById(nonExistingUserIdToUpdate)).thenReturn(Optional.empty());
 
-        when(usersRepository.findById(anyLong())).thenReturn(Optional.empty());
+        UsersDto usersDto = new UsersDto();
+        usersDto.setEmail("test@example.com");
+        usersDto.setName("John Doe");
 
-        // When and Then
-        assertThrows(RuntimeException.class, () -> userService.update(1L, usersDTO), "회원정보를 찾을 수 없습니다.");
+        assertThrows(RuntimeException.class, () -> usersService.update(nonExistingUserIdToUpdate, usersDto), "사용자를 찾을 수 없습니다.");
 
-        verify(usersRepository, times(1)).findById(anyLong());
+        verify(usersRepository).findById(nonExistingUserIdToUpdate);
+    }
+
+
+
+    @Test
+    void delete_ExistingUserId_Success() {
+        // Given
+        Long userIdToDelete = 1L;
+        when(usersRepository.existsById(userIdToDelete)).thenReturn(true);
+        // When
+        usersService.delete(userIdToDelete);
+        // Then
+        verify(usersRepository).existsById(userIdToDelete);
+        verify(usersRepository).deleteById(userIdToDelete);
     }
 
     @Test
-    void delete_NonExistingUser_ThrowsException() {
+    void delete_NonExistentUserID_ThrowsException() {
         // Given
-        when(usersRepository.existsById(anyLong())).thenReturn(false);
+        Long nonExistingUserIdToDelete= 100L;
+        when(usersRepository.existsById(nonExistingUserIdToDelete)).thenReturn(false);
 
-        // When and Then
-        assertThrows(RuntimeException.class, () -> userService.delete(1L), "회원정보를 찾을 수 없습니다.");
+        assertThrows(RuntimeException.class, () -> usersService.delete(nonExistingUserIdToDelete), "사용자를 찾을 수 없습니다.");
 
-        verify(usersRepository, times(1)).existsById(anyLong());
+        verify(usersRepository).existsById(nonExistingUserIdToDelete);
     }
 }

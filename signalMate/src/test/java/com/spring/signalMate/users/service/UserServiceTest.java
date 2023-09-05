@@ -1,7 +1,7 @@
 package com.spring.signalMate.users.service;
 
 import com.spring.signalMate.users.dto.UsersDto;
-import com.spring.signalMate.users.entity.Users;
+import com.spring.signalMate.users.entity.UserEntity;
 import com.spring.signalMate.users.repository.UsersRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,7 +38,7 @@ class UserServiceTest {
     void update_ExistingUser_Success() {
         // Given
         Long userIdToUpdate = 1L;
-        Users existingUser = new Users();
+        UserEntity existingUser = new UserEntity();
         existingUser.setUserId(userIdToUpdate);
         existingUser.setEmail("test@example.com");
         UsersDto usersDto = new UsersDto();

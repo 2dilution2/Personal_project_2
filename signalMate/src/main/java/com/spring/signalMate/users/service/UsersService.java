@@ -1,50 +1,40 @@
 package com.spring.signalMate.users.service;
 
-import com.spring.signalMate.users.dto.UsersDto;
-import com.spring.signalMate.users.entity.Users;
+import com.spring.signalMate.users.dto.PatchUserDto;
+import com.spring.signalMate.users.dto.PatchUserResponseDto;
+import com.spring.signalMate.users.dto.ResponseDto;
+import com.spring.signalMate.users.entity.UserEntity;
 import com.spring.signalMate.users.repository.UsersRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor
-public class UsersService {
+public class UserService {
 
-    private final UsersRepository usersRepository;
+    @Autowired
+    UsersRepository usersRepository;
 
-    private final PasswordEncoder passwordEncoder;
+    public ResponseDto<PatchUserResponseDto> patchUser(PatchUserDto dto, String userEmail){
+        UserEntity userEntity;
+        String userNickname = dto.getUserNickname();
+        String userProfile = dto.getUserProfile();
 
-    // 회원가입
-    public Users register(UsersDto usersDto) {
-        if (usersRepository.existsByEmail(usersDto.getEmail())) {
-            throw new RuntimeException("이미 존재하는 이메일 입니다.");
+        try {
+            userEntity = usersRepository.findByEmail(userEmail);
+            if (userEntity == null) return ResponseDto.setFailed("존재하지않는 이용자입니다.");
+
+            userEntity.setNickname(userNickname);
+            userEntity.setProfile(userProfile);
+
+            usersRepository.save(userEntity);
+        } catch (Exception e) {
+            return ResponseDto.setFailed("데이터베이스 오류");
         }
 
-        Users newusers = new Users();
-        newusers.setEmail(usersDto.getEmail());
-        newusers.setPassword(passwordEncoder.encode(usersDto.getPassword()));
-        newusers.setName(usersDto.getName());
+        userEntity.setPassword("");
 
-        return usersRepository.save(newusers);
-    }
+        PatchUserResponseDto patchUserResponseDto = new PatchUserResponseDto(userEntity);
 
-    // 회원정보수정
-    public void update(Long id, UsersDto usersDto) {
-        Users existUser = usersRepository.findById(id).orElseThrow(() -> new RuntimeException("회원정보를 찾을 수 없습니다."));
-
-        existUser.setEmail(usersDto.getEmail());
-        existUser.setName(usersDto.getName());
-
-        usersRepository.save(existUser);
-    }
-
-    // 회원정보 삭제
-    public void delete(Long id) {
-        if (!usersRepository.existsById(id)) {
-            throw new RuntimeException("회원정보를 찾을 수 없습니다.");
-        }
-
-        usersRepository.deleteById(id);
+        return ResponseDto.setSuccess("Success", patchUserResponseDto);
     }
 }

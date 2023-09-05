@@ -1,6 +1,6 @@
 package com.spring.signalMate.users.service;
 
-import com.spring.signalMate.users.entity.Users;
+import com.spring.signalMate.users.entity.UserEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,7 +13,7 @@ public class MyUserDetails implements UserDetails {
     private String email;
     private String password;
 
-    public MyUserDetails(Users users) {
+    public MyUserDetails(UserEntity users) {
         this.email = users.getEmail();
         this.password = users.getPassword();
     }

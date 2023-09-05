@@ -1,6 +1,6 @@
 package com.spring.signalMate.users.service;
 
-import com.spring.signalMate.users.entity.Users;
+import com.spring.signalMate.users.entity.UserEntity;
 import com.spring.signalMate.users.repository.UsersRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,7 +17,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     public UserDetails loadUserByUsername(String username) {
-        Users users = usersRepository.findByEmail(username);
+        UserEntity users = usersRepository.findByEmail(username);
         if (users == null) {
             throw new UsernameNotFoundException("회원정보를 찾을 수 없습니다.");
         }

@@ -1,13 +1,12 @@
-package com.spring.signalMate.users.service;
+package com.spring.signalMate.service;
 
-import com.spring.signalMate.users.controller.MainController;
-import com.spring.signalMate.users.dto.ResponseDto;
-import com.spring.signalMate.users.dto.SignInDto;
-import com.spring.signalMate.users.dto.SignInResponseDto;
-import com.spring.signalMate.users.dto.SignUpDto;
-import com.spring.signalMate.users.entity.UserEntity;
+import com.spring.signalMate.dto.ResponseDto;
+import com.spring.signalMate.dto.SignInDto;
+import com.spring.signalMate.dto.SignInResponseDto;
+import com.spring.signalMate.dto.SignUpDto;
+import com.spring.signalMate.entity.UserEntity;
 import com.spring.signalMate.security.TokenProvider;
-import com.spring.signalMate.users.repository.UsersRepository;
+import com.spring.signalMate.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;

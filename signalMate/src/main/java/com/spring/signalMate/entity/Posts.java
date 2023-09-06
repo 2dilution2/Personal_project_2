@@ -1,4 +1,4 @@
-package com.spring.signalMate.posts.entity;
+package com.spring.signalMate.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

@@ -1,4 +1,4 @@
-package com.spring.signalMate.users.controller;
+package com.spring.signalMate.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

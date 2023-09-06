@@ -1,8 +1,8 @@
-package com.spring.signalMate.users.entity;
+package com.spring.signalMate.entity;
 
 import javax.persistence.*;
 
-import com.spring.signalMate.users.dto.SignUpDto;
+import com.spring.signalMate.dto.SignUpDto;
 import lombok.*;
 
 import java.time.LocalDateTime;

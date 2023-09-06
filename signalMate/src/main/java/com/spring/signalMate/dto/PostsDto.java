@@ -1,4 +1,4 @@
-package com.spring.signalMate.posts.dto;
+package com.spring.signalMate.dto;
 
 import java.time.LocalDateTime;
 

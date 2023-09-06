@@ -1,8 +1,8 @@
 package com.spring.signalMate.users.service;
 
 import com.spring.signalMate.users.dto.UsersDto;
-import com.spring.signalMate.users.entity.UserEntity;
-import com.spring.signalMate.users.repository.UsersRepository;
+import com.spring.signalMate.entity.UserEntity;
+import com.spring.signalMate.repository.UsersRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

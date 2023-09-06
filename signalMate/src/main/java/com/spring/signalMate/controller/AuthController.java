@@ -1,10 +1,10 @@
-package com.spring.signalMate.users.controller;
+package com.spring.signalMate.controller;
 
-import com.spring.signalMate.users.dto.ResponseDto;
-import com.spring.signalMate.users.dto.SignInDto;
-import com.spring.signalMate.users.dto.SignInResponseDto;
-import com.spring.signalMate.users.dto.SignUpDto;
-import com.spring.signalMate.users.service.AuthService;
+import com.spring.signalMate.dto.ResponseDto;
+import com.spring.signalMate.dto.SignInDto;
+import com.spring.signalMate.dto.SignInResponseDto;
+import com.spring.signalMate.dto.SignUpDto;
+import com.spring.signalMate.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

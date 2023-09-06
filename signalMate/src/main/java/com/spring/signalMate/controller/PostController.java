@@ -1,4 +1,4 @@
-package com.spring.signalMate.posts.controller;
+package com.spring.signalMate.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

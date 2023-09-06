@@ -1,4 +1,4 @@
-package com.spring.signalMate.users.dto;
+package com.spring.signalMate.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

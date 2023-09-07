@@ -27,9 +27,9 @@ public class AuthService {
 
     @Transactional
     public ResponseDto<?> signUp(SignUpDto dto) {
-        String userEmail = dto.getUserEmail();
-        String userPassword = dto.getUserPassword();
-        String userPasswordCheck = dto.getUserPasswordCheck();
+        String userEmail = dto.getEmail();
+        String userPassword = dto.getPassword();
+        String userPasswordCheck = dto.getPasswordCheck();
 
         // 이메일 중복확인
         try {
@@ -64,8 +64,8 @@ public class AuthService {
     }
 
     public ResponseDto<SignInResponseDto> signIn(SignInDto dto) {
-        String userEmail = dto.getUserEmail();
-        String userPassword = dto.getUserPassword();
+        String userEmail = dto.getEmail();
+        String userPassword = dto.getPassword();
         UserEntity userEntity = null;
         try {
             userEntity = userRepository.findByEmail(userEmail);

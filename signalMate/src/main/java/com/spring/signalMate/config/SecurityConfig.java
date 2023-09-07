@@ -30,7 +30,7 @@ public class SecurityConfig {
                 // 세션기반 인증 -> 현재는 세션기반 인증 사용하지 않음
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 //"/", "/api/auth/" 모듈에 대해서는 모두 허용
-                .authorizeRequests().antMatchers("/", "/api/auth/**").permitAll()
+                .authorizeRequests().antMatchers("/", "/api/auth/**","/api/board").permitAll()
                 // 나머지 요청에 대해서는 모두 인증된 사용자만 사용가능하게 함
                 .anyRequest().authenticated();
 

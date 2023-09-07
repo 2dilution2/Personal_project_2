@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/post")
+@RequestMapping("/api/post")
 public class PostController {
 
     @GetMapping("/save")

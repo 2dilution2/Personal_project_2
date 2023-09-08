@@ -23,15 +23,25 @@ public class PostController {
         return result;
     }
 
+    @GetMapping("/list")
+    public ResponseEntity<ResponseDto<List<PostDto>>> listPosts() {
+        ResponseDto<List<PostDto>> response = postService.getList();
+        if (response.isSuccess()) {
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
     @PostMapping("/update/{postId}")
     public ResponseDto<?> updatePost(@PathVariable Long postId, @RequestBody PostDto requestBody) {
         ResponseDto<?> result = postService.updatePost(postId, requestBody);
         return result;
     }
 
-    @GetMapping("/list")
-    public ResponseEntity<ResponseDto<List<PostDto>>> listPosts() {
-        ResponseDto<List<PostDto>> response = postService.getList();
+    @DeleteMapping("/delete/{postId}")
+    public ResponseEntity<ResponseDto<String>> deletePost(@PathVariable Long postId) {
+        ResponseDto<String> response = postService.deletePost(postId);
         if (response.isSuccess()) {
             return ResponseEntity.ok(response);
         } else {

@@ -10,6 +10,10 @@ public class ResponseDto<D> {
     private String message;
     private D data;
 
+    public boolean isSuccess() {
+        return result;
+    }
+
     public static <D> ResponseDto<D> setSuccess(String message, D data){
         return ResponseDto.set(true, message, data);
     }

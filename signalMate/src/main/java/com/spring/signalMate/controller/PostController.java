@@ -24,14 +24,16 @@ public class PostController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<ResponseDto<List<PostDto>>> listPosts() {
-        ResponseDto<List<PostDto>> response = postService.getList();
+    public ResponseEntity<ResponseDto<List<PostDto>>> listPosts(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
+        ResponseDto<List<PostDto>> response = postService.getList(page, size);
         if (response.isSuccess()) {
             return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
+
+
 
     @PostMapping("/update/{postId}")
     public ResponseDto<?> updatePost(@PathVariable Long postId, @RequestBody PostDto requestBody) {
@@ -50,14 +52,17 @@ public class PostController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<ResponseDto<List<PostDto>>> searchPosts(@RequestParam String title) {
-        ResponseDto<List<PostDto>> response = postService.getSearchList(title);
+    public ResponseEntity<ResponseDto<List<PostDto>>> getSearchList(@RequestParam String title,
+                                                                    @RequestParam(defaultValue = "0") int page,
+                                                                    @RequestParam(defaultValue = "10") int size) {
+        ResponseDto<List<PostDto>> response = postService.getSearchList(title, page, size);
         if (response.isSuccess()) {
             return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
+
 
     @GetMapping("/save")
     public String saveForm() {

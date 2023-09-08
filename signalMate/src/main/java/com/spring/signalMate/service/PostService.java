@@ -9,6 +9,10 @@ import com.spring.signalMate.repository.UsersRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PostService {
@@ -50,13 +55,14 @@ public class PostService {
         return postDto;
     }
 
-    public ResponseDto<List<PostDto>> getList() {
-        List<PostEntity> postList = new ArrayList<>();
+    public ResponseDto<List<PostDto>> getList(int page, int size) {
         List<PostDto> postDtos = new ArrayList<>();
 
         try {
-            postList = postRepository.findByOrderByCreatedDesc();
-            for (PostEntity postEntity : postList) {
+            Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "created"));
+            Page<PostEntity> postPage = postRepository.findAll(pageable);
+
+            for (PostEntity postEntity : postPage) {
                 postDtos.add(convertEntityToDto(postEntity));
             }
         } catch (Exception e) {
@@ -66,19 +72,14 @@ public class PostService {
         return ResponseDto.setSuccess("Success", postDtos);
     }
 
-    public ResponseDto<List<PostDto>> getSearchList(String title){
-        List<PostEntity> boardList = new ArrayList<>();
-        List<PostDto> postDtos = new ArrayList<>();
 
-        try {
-            boardList = postRepository.findByTitleContains(title);
-            for (PostEntity postEntity : boardList) {
-                postDtos.add(convertEntityToDto(postEntity));
-            }
-        } catch (Exception e) {
-            log.error("Error during getSearchList process", e);
-            return ResponseDto.setFailed("데이터베이스 오류");
-        }
+    public ResponseDto<List<PostDto>> getSearchList(String title, int page, int size) {
+        PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "created"));
+        Page<PostEntity> result = postRepository.findByTitleContains(title, pageRequest);
+
+        List<PostDto> postDtos = result.getContent().stream()
+                .map(this::convertEntityToDto)
+                .collect(Collectors.toList());
 
         return ResponseDto.setSuccess("Success", postDtos);
     }
@@ -132,4 +133,6 @@ public class PostService {
             return ResponseDto.setFailed("데이터베이스 오류");
         }
     }
+
+
 }

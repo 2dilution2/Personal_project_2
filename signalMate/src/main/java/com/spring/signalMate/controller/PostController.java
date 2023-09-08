@@ -49,6 +49,16 @@ public class PostController {
         }
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<ResponseDto<List<PostDto>>> searchPosts(@RequestParam String title) {
+        ResponseDto<List<PostDto>> response = postService.getSearchList(title);
+        if (response.isSuccess()) {
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
     @GetMapping("/save")
     public String saveForm() {
         return "save";

@@ -20,7 +20,7 @@ public class UserService {
         String userProfile = dto.getUserProfile();
 
         try {
-            userEntity = usersRepository.findByEmail(userEmail);
+            userEntity = usersRepository.findByEmail(userEmail).orElse(null);
             if (userEntity == null) return ResponseDto.setFailed("존재하지않는 이용자입니다.");
 
             userEntity.setNickname(userNickname);

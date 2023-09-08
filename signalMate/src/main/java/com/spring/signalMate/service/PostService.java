@@ -1,11 +1,17 @@
 package com.spring.signalMate.service;
 
+import com.spring.signalMate.dto.PostDto;
 import com.spring.signalMate.dto.ResponseDto;
 import com.spring.signalMate.entity.PostEntity;
+import com.spring.signalMate.entity.UserEntity;
 import com.spring.signalMate.repository.PostRepository;
+import com.spring.signalMate.repository.UsersRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,65 +23,108 @@ public class PostService {
     @Autowired
     PostRepository postRepository;
 
-    private static final Logger log = LoggerFactory.getLogger(AuthService.class);
+    @Autowired
+    UsersRepository userRepository;
 
-    public ResponseDto<List<PostEntity>> getList() {
-        List<PostEntity> postList = new ArrayList<PostEntity>();
+    private static final Logger log = LoggerFactory.getLogger(PostService.class);
+
+    private PostEntity convertDtoToEntity(PostDto postDto) {
+        PostEntity postEntity = new PostEntity();
+
+        UserEntity userEntity = userRepository.findByEmail(postDto.getUserEmail())
+                .orElseThrow(() -> new UsernameNotFoundException("이메일이 " + postDto.getUserEmail() + "인 사용자를 찾을 수 없습니다."));
+
+        postEntity.setUser(userEntity); // 여기를 변경했습니다.
+        postEntity.setTitle(postDto.getTitle());
+        postEntity.setContent(postDto.getContent());
+        postEntity.setSymptom(postDto.getSymptom());
+
+        return postEntity;
+    }
+
+    private PostDto convertEntityToDto(PostEntity postEntity) {
+        PostDto postDto = new PostDto();
+        postDto.setTitle(postEntity.getTitle());
+        postDto.setContent(postEntity.getContent());
+        postDto.setSymptom(postEntity.getSymptom());
+        return postDto;
+    }
+
+    public ResponseDto<List<PostDto>> getList() {
+        List<PostEntity> postList = new ArrayList<>();
+        List<PostDto> postDtos = new ArrayList<>();
 
         try {
             postList = postRepository.findByOrderByCreatedDesc();
+            for (PostEntity postEntity : postList) {
+                postDtos.add(convertEntityToDto(postEntity));
+            }
         } catch (Exception e) {
-            log.error("Error during signIn process", e);
+            log.error("Error during getList process", e);
             return ResponseDto.setFailed("데이터베이스 오류");
         }
-        return ResponseDto.setSuccess("Success", postList);
+        return ResponseDto.setSuccess("Success", postDtos);
     }
 
-    public ResponseDto<List<PostEntity>> getSearchList(String title){
-        List<PostEntity> boardList = new ArrayList<PostEntity>();
+    public ResponseDto<List<PostDto>> getSearchList(String title){
+        List<PostEntity> boardList = new ArrayList<>();
+        List<PostDto> postDtos = new ArrayList<>();
 
         try {
             boardList = postRepository.findByTitleContains(title);
+            for (PostEntity postEntity : boardList) {
+                postDtos.add(convertEntityToDto(postEntity));
+            }
         } catch (Exception e) {
-            log.error("Error during signIn process", e);
+            log.error("Error during getSearchList process", e);
             return ResponseDto.setFailed("데이터베이스 오류");
         }
 
-        return ResponseDto.setSuccess("Success", boardList);
-
+        return ResponseDto.setSuccess("Success", postDtos);
     }
 
-    public ResponseDto<PostEntity> createPost(PostEntity boardEntity) {
+    public ResponseDto<PostDto> createPost(PostDto postDto) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserEmail = authentication.getName();
+
+        postDto.setUserEmail(currentUserEmail); // 여기를 변경했습니다.
+
         try {
-            PostEntity createdPost = postRepository.save(boardEntity);
-            return ResponseDto.setSuccess("Post created successfully", createdPost);
+            PostEntity postEntity = convertDtoToEntity(postDto);
+            PostEntity createdPost = postRepository.save(postEntity);
+
+            return ResponseDto.setSuccess("Post created successfully", convertEntityToDto(createdPost));
         } catch (Exception e) {
-            log.error("Error during signIn process", e);
-            return ResponseDto.setFailed("Database Error");
+            log.error("Error during createPost process", e);
+            return ResponseDto.setFailed("데이터베이스 오류");
         }
     }
 
-    public ResponseDto<PostEntity> updatePost(Long postId, PostEntity boardEntity) {
+
+    public ResponseDto<PostDto> updatePost(Long postId, PostDto postDto) {
         try {
             if (!postRepository.existsById(postId)) {
                 return ResponseDto.setFailed("Post not found");
             }
-            boardEntity.setPostId(postId);
-            PostEntity updatedPost = postRepository.save(boardEntity);
-            return ResponseDto.setSuccess("Post updated successfully", updatedPost);
+            PostEntity postEntity = convertDtoToEntity(postDto);
+            postEntity.setPostId(postId);
+            PostEntity updatedPost = postRepository.save(postEntity);
+            return ResponseDto.setSuccess("Post updated successfully", convertEntityToDto(updatedPost));
         } catch (Exception e) {
-            log.error("Error during signIn process", e);
-            return ResponseDto.setFailed("Database Error");
+            log.error("Error during updatePost process", e);
+            return ResponseDto.setFailed("데이터베이스 오류");
         }
     }
 
+    // deletePost 메서드는 PostDto를 사용하지 않기 때문에 그대로 둘 수 있습니다.
     public ResponseDto<String> deletePost(Long postId) {
         try {
             postRepository.deleteById(postId);
             return ResponseDto.setSuccess("Post deleted successfully", null);
         } catch (Exception e) {
-            log.error("Error during signIn process", e);
-            return ResponseDto.setFailed("Database Error");
+            log.error("Error during deletePost process", e);
+            return ResponseDto.setFailed("데이터베이스 오류");
         }
     }
 }

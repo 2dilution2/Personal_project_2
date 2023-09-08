@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/")
 public class MainController {
 
-    @GetMapping("board")
+    @GetMapping("")
     public String hello() {
         return "Connection Succersful";
     }

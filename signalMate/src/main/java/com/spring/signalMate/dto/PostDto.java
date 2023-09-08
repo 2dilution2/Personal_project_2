@@ -1,15 +1,21 @@
 package com.spring.signalMate.dto;
 
 import com.spring.signalMate.constant.Symptom;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-public class PostsDto {
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class PostDto {
 
     private Long postId;
-    private Long userId;
+    private String userEmail;
     private String title;
-    private String context;
+    private String content;
     private Symptom symptom;
     private LocalDateTime created;
     private LocalDateTime updated;

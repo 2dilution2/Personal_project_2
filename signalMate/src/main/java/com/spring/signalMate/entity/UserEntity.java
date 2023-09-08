@@ -2,6 +2,8 @@ package com.spring.signalMate.entity;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.spring.signalMate.dto.SignUpDto;
 import lombok.*;
 
@@ -51,6 +53,7 @@ public class UserEntity {
     }
 
     @OneToMany(mappedBy="user", fetch=FetchType.LAZY)
+    @JsonBackReference
     private List<PostEntity> posts;
 
     public UserEntity(SignUpDto dto){

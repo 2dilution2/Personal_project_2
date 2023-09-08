@@ -73,7 +73,7 @@ public class AuthService {
         String userPassword = dto.getPassword();
         UserEntity userEntity = null;
         try {
-            userEntity = userRepository.findByEmail(userEmail);
+            userEntity = userRepository.findByEmail(userEmail).orElse(null);
             System.out.println("Searching for email: " + userEmail);
             if (userEntity == null) return ResponseDto.setFailed("이메일이 일치하지 않습니다.");
             if (!passwordEncoder.matches(userPassword, userEntity.getPassword()))

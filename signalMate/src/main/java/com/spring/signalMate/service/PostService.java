@@ -31,10 +31,10 @@ public class PostService {
     private PostEntity convertDtoToEntity(PostDto postDto) {
         PostEntity postEntity = new PostEntity();
 
-        UserEntity userEntity = userRepository.findByEmail(postDto.getUserEmail())
-                .orElseThrow(() -> new UsernameNotFoundException("이메일이 " + postDto.getUserEmail() + "인 사용자를 찾을 수 없습니다."));
+        UserEntity userEntity = userRepository.findByEmail(postDto.getUserId())
+                .orElseThrow(() -> new UsernameNotFoundException("아이디가 " + postDto.getUserId() + "인 사용자를 찾을 수 없습니다."));
 
-        postEntity.setUser(userEntity); // 여기를 변경했습니다.
+        postEntity.setUser(userEntity);
         postEntity.setTitle(postDto.getTitle());
         postEntity.setContent(postDto.getContent());
         postEntity.setSymptom(postDto.getSymptom());
@@ -88,7 +88,7 @@ public class PostService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserEmail = authentication.getName();
 
-        postDto.setUserEmail(currentUserEmail); // 여기를 변경했습니다.
+        postDto.setUserId(currentUserEmail);
 
         try {
             PostEntity postEntity = convertDtoToEntity(postDto);
@@ -103,6 +103,12 @@ public class PostService {
 
 
     public ResponseDto<PostDto> updatePost(Long postId, PostDto postDto) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserEmail = authentication.getName();
+
+        postDto.setUserId(currentUserEmail);
+
         try {
             if (!postRepository.existsById(postId)) {
                 return ResponseDto.setFailed("Post not found");
@@ -117,7 +123,6 @@ public class PostService {
         }
     }
 
-    // deletePost 메서드는 PostDto를 사용하지 않기 때문에 그대로 둘 수 있습니다.
     public ResponseDto<String> deletePost(Long postId) {
         try {
             postRepository.deleteById(postId);

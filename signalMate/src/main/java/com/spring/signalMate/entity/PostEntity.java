@@ -24,7 +24,7 @@ public class PostEntity {
     private Long postId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "email")
+    @JoinColumn(name = "user_id")
     @JsonManagedReference
     private UserEntity user;
 

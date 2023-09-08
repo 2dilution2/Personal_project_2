@@ -19,6 +19,12 @@ public class PostController {
         return result;
     }
 
+    @PostMapping("/update/{postId}")
+    public ResponseDto<?> updatePost(@PathVariable Long postId, @RequestBody PostDto requestBody) {
+        ResponseDto<?> result = postService.updatePost(postId, requestBody);
+        return result;
+    }
+
     @GetMapping("/save")
     public String saveForm() {
         return "save";

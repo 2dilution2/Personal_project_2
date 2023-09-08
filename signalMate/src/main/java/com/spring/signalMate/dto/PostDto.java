@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class PostDto {
 
     private Long postId;
-    private String userEmail;
+    private String userId;
     private String title;
     private String content;
     private Symptom symptom;

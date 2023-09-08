@@ -7,6 +7,8 @@ import com.spring.signalMate.dto.SignUpDto;
 import com.spring.signalMate.entity.UserEntity;
 import com.spring.signalMate.security.TokenProvider;
 import com.spring.signalMate.repository.UsersRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,6 +26,8 @@ public class AuthService {
     TokenProvider tokenProvider;
 
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    private static final Logger log = LoggerFactory.getLogger(AuthService.class);
 
     @Transactional
     public ResponseDto<?> signUp(SignUpDto dto) {
@@ -56,6 +60,7 @@ public class AuthService {
         try {
             userRepository.save(userEntity);
         } catch (Exception e) {
+            log.error("Error during signIn process", e);
             return ResponseDto.setFailed("데이터베이스 에러.");
         }
 
@@ -69,10 +74,12 @@ public class AuthService {
         UserEntity userEntity = null;
         try {
             userEntity = userRepository.findByEmail(userEmail);
+            System.out.println("Searching for email: " + userEmail);
             if (userEntity == null) return ResponseDto.setFailed("이메일이 일치하지 않습니다.");
             if (!passwordEncoder.matches(userPassword, userEntity.getPassword()))
                 return ResponseDto.setFailed("비밀번호가 일치하지 않습니다.");
         } catch (Exception e) {
+            log.error("Error during signIn process", e);
             return ResponseDto.setFailed("데이터베이스 오류");
         }
         userEntity.setPassword("");

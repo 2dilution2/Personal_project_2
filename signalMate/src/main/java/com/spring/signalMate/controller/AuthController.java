@@ -6,6 +6,8 @@ import com.spring.signalMate.dto.SignInResponseDto;
 import com.spring.signalMate.dto.SignUpDto;
 import com.spring.signalMate.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,5 +27,15 @@ public class AuthController {
     public ResponseDto<SignInResponseDto> signIn (@RequestBody SignInDto requestBody) {
         ResponseDto<SignInResponseDto> result = authService.signIn(requestBody);
         return result;
+    }
+
+    @DeleteMapping("/delete/{userId}")
+    public ResponseEntity<?> deleteUser(@PathVariable Long userId) {
+        ResponseDto<String> response = authService.deleteUser(userId);
+        if (response.isSuccess()) {
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
     }
 }

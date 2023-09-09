@@ -15,7 +15,7 @@ public class TokenProvider {
     private static final String SECURITY_KEY = "jwtseckey!@";
 
     // Jwt 생성하는 메서드
-    public String create(String userEmail) {
+    public String create(Long userId) {
         // 만료날짜를 현재날짜 + 1시간으로 설정
         Date expirDate = Date.from(Instant.now().plus(1, ChronoUnit.HOURS));
 
@@ -24,7 +24,7 @@ public class TokenProvider {
                 // 암호화에 사용될 알고리즘, 키
                 .signWith(SignatureAlgorithm.HS512, SECURITY_KEY)
                 // Jwt제목
-                .setSubject(userEmail)
+                .setSubject(userId.toString())  // setSubject 메서드를 사용하여 userId 저장
                 // Jwt생성일
                 .setIssuedAt(new Date())
                 // Jwt만료일
@@ -33,11 +33,10 @@ public class TokenProvider {
                 .compact();
     }
 
-    // Jwt 검증
-    public String validate (String token) {
-        // 매개변수로 받은 token 을 키를 사용해 복호화 (디코딩)
+    // Jwt 검증 및 userId 추출
+    public Long extractUserIdFromToken(String token) {
         Claims claims = Jwts.parser().setSigningKey(SECURITY_KEY).parseClaimsJws(token).getBody();
-        // 복호화된 토큰의 patload에서 제목을 가져옴
-        return claims.getSubject();
+        return Long.parseLong(claims.getSubject());
     }
+
 }

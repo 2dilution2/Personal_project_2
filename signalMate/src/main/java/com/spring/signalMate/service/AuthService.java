@@ -10,6 +10,9 @@ import com.spring.signalMate.repository.UsersRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -84,10 +87,38 @@ public class AuthService {
         }
         userEntity.setPassword("");
 
-        String token = tokenProvider.create(userEmail);
+        String token = tokenProvider.create(userEntity.getUserId());
         int expirTime = 3600000;
 
         SignInResponseDto signInResponseDto = new SignInResponseDto(token, expirTime, userEntity);
         return ResponseDto.setSuccess("로그인에 성공하였습니다.", signInResponseDto);
     }
+
+    public ResponseDto<String> deleteUser(Long userId) {
+        // 현재 인증된 사용자 정보를 가져옴
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        Object principal = authentication.getPrincipal();
+        log.info("Principal type: " + principal.getClass().getName());
+        log.info("Principal value: " + principal.toString());
+
+        // 사용자 정보가 String 타입인지 확인
+        if (principal instanceof String) {
+            if (Long.parseLong(principal.toString()) == userId) {
+                // 사용자 삭제 로직
+                try {
+                    userRepository.deleteById(userId);
+                    return ResponseDto.setSuccess("User deleted successfully", null);
+                } catch (Exception e) {
+                    log.error("Error during deleteUser process", e);
+                    return ResponseDto.setFailed("데이터베이스 오류");
+                }
+            } else {
+                return ResponseDto.setFailed("권한이 없습니다.");
+            }
+        } else {
+            return ResponseDto.setFailed("인증되지 않은 사용자입니다.");
+        }
+    }
+
 }

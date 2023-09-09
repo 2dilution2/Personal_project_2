@@ -1,9 +1,6 @@
 package com.spring.signalMate.service;
 
-import com.spring.signalMate.dto.ResponseDto;
-import com.spring.signalMate.dto.SignInDto;
-import com.spring.signalMate.dto.SignInResponseDto;
-import com.spring.signalMate.dto.SignUpDto;
+import com.spring.signalMate.dto.*;
 import com.spring.signalMate.entity.UserEntity;
 import com.spring.signalMate.security.TokenProvider;
 import com.spring.signalMate.repository.UsersRepository;
@@ -92,6 +89,32 @@ public class AuthService {
 
         SignInResponseDto signInResponseDto = new SignInResponseDto(token, expirTime, userEntity);
         return ResponseDto.setSuccess("로그인에 성공하였습니다.", signInResponseDto);
+    }
+
+    public void updateUser(Long userId, UserUpddateDto userUpddateDto) {
+        UserEntity user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+
+        try {
+
+            if(userUpddateDto.getNickname() != null && !userUpddateDto.getNickname().isEmpty()) {
+            user.setNickname(userUpddateDto.getNickname());
+            }
+
+            if(userUpddateDto.getPhoneNum() != null && !userUpddateDto.getPhoneNum().isEmpty()) {
+                user.setPhoneNum(userUpddateDto.getPhoneNum());
+            }
+
+            if(userUpddateDto.getProfile() != null && !userUpddateDto.getProfile().isEmpty()) {
+                user.setProfile(userUpddateDto.getProfile());
+            }
+
+        } catch (Exception e) {
+            log.error("Error during signIn process", e);
+            System.out.println(ResponseDto.setFailed("데이터베이스 오류"));
+        }
+
+        userRepository.save(user);
+
     }
 
     public ResponseDto<String> deleteUser(Long userId) {

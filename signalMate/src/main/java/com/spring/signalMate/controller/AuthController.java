@@ -1,9 +1,6 @@
 package com.spring.signalMate.controller;
 
-import com.spring.signalMate.dto.ResponseDto;
-import com.spring.signalMate.dto.SignInDto;
-import com.spring.signalMate.dto.SignInResponseDto;
-import com.spring.signalMate.dto.SignUpDto;
+import com.spring.signalMate.dto.*;
 import com.spring.signalMate.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,6 +24,12 @@ public class AuthController {
     public ResponseDto<SignInResponseDto> signIn (@RequestBody SignInDto requestBody) {
         ResponseDto<SignInResponseDto> result = authService.signIn(requestBody);
         return result;
+    }
+
+    @PutMapping("/update/{userId}")
+    public ResponseEntity<?> updateUser(@PathVariable Long userId, @RequestBody UserUpddateDto userUpddateDto) {
+        authService.updateUser(userId, userUpddateDto);
+        return ResponseEntity.ok("User updated successfully");
     }
 
     @DeleteMapping("/delete/{userId}")

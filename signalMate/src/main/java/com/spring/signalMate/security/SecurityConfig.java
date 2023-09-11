@@ -1,4 +1,4 @@
-package com.spring.signalMate.config;
+package com.spring.signalMate.security;
 
 import com.spring.signalMate.security.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;

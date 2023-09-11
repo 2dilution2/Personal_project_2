@@ -33,8 +33,6 @@ public class PostController {
         }
     }
 
-
-
     @PostMapping("/update/{postId}")
     public ResponseDto<?> updatePost(@PathVariable Long postId, @RequestBody PostDto requestBody) {
         ResponseDto<?> result = postService.updatePost(postId, requestBody);
@@ -62,7 +60,6 @@ public class PostController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
-
 
     @GetMapping("/save")
     public String saveForm() {

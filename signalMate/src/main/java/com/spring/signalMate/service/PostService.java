@@ -36,8 +36,10 @@ public class PostService {
     private PostEntity convertDtoToEntity(PostDto postDto) {
         PostEntity postEntity = new PostEntity();
 
-        UserEntity userEntity = userRepository.findByEmail(postDto.getUserId())
-                .orElseThrow(() -> new UsernameNotFoundException("아이디가 " + postDto.getUserId() + "인 사용자를 찾을 수 없습니다."));
+        Long userId = Long.parseLong(postDto.getUserId());
+
+        UserEntity userEntity = userRepository.findById(userId)
+                .orElseThrow(() -> new UsernameNotFoundException("아이디가 " + userId + "인 사용자를 찾을 수 없습니다."));
 
         postEntity.setUser(userEntity);
         postEntity.setTitle(postDto.getTitle());

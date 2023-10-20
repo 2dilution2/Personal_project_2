@@ -26,6 +26,12 @@ public class AuthController {
         return result;
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout(@RequestHeader("Authorization") String request) {
+        authService.logout(request);
+        return ResponseEntity.ok().build();
+    }
+
     @PutMapping("/update/{userId}")
     public ResponseEntity<?> updateUser(@PathVariable Long userId, @RequestBody UserUpddateDto userUpddateDto) {
         authService.updateUser(userId, userUpddateDto);

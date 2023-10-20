@@ -85,10 +85,14 @@ public class AuthService {
         userEntity.setPassword("");
 
         String token = tokenProvider.create(userEntity.getUserId());
-        int expirTime = 3600000;
+        int expireTime = 3600000;
 
-        SignInResponseDto signInResponseDto = new SignInResponseDto(token, expirTime, userEntity);
+        SignInResponseDto signInResponseDto = new SignInResponseDto(token, expireTime, userEntity);
         return ResponseDto.setSuccess("로그인에 성공하였습니다.", signInResponseDto);
+    }
+
+    public void logout(String request) {
+
     }
 
     public void updateUser(Long userId, UserUpddateDto userUpddateDto) {

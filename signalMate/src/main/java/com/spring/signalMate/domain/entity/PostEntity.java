@@ -1,11 +1,10 @@
-package com.spring.signalMate.entity;
+package com.spring.signalMate.domain.entity;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.spring.signalMate.constant.Symptom;
-import com.spring.signalMate.dto.PostDto;
+import com.spring.signalMate.domain.constant.Symptom;
+import com.spring.signalMate.domain.dto.PostDto;
 import lombok.*;
 
 import java.time.LocalDateTime;

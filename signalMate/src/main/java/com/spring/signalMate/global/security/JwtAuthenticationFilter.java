@@ -1,6 +1,5 @@
-package com.spring.signalMate.security;
+package com.spring.signalMate.global.security;
 
-import com.spring.signalMate.security.TokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

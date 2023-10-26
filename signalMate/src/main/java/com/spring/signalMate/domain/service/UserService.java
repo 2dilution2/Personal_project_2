@@ -1,10 +1,10 @@
-package com.spring.signalMate.service;
+package com.spring.signalMate.domain.service;
 
-import com.spring.signalMate.dto.PatchUserDto;
-import com.spring.signalMate.dto.PatchUserResponseDto;
-import com.spring.signalMate.dto.ResponseDto;
-import com.spring.signalMate.entity.UserEntity;
-import com.spring.signalMate.repository.UsersRepository;
+import com.spring.signalMate.domain.dto.PatchUserDto;
+import com.spring.signalMate.domain.dto.PatchUserResponseDto;
+import com.spring.signalMate.domain.dto.ResponseDto;
+import com.spring.signalMate.domain.entity.UserEntity;
+import com.spring.signalMate.domain.repository.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

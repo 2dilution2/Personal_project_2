@@ -1,6 +1,6 @@
-package com.spring.signalMate.repository;
+package com.spring.signalMate.domain.repository;
 
-import com.spring.signalMate.entity.UserEntity;
+import com.spring.signalMate.domain.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

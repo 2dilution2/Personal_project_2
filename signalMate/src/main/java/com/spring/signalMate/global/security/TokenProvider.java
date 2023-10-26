@@ -1,4 +1,4 @@
-package com.spring.signalMate.security;
+package com.spring.signalMate.global.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

@@ -1,11 +1,11 @@
-package com.spring.signalMate.service;
+package com.spring.signalMate.domain.service;
 
-import com.spring.signalMate.dto.PostDto;
-import com.spring.signalMate.dto.ResponseDto;
-import com.spring.signalMate.entity.PostEntity;
-import com.spring.signalMate.entity.UserEntity;
-import com.spring.signalMate.repository.PostRepository;
-import com.spring.signalMate.repository.UsersRepository;
+import com.spring.signalMate.domain.dto.PostDto;
+import com.spring.signalMate.domain.dto.ResponseDto;
+import com.spring.signalMate.domain.entity.PostEntity;
+import com.spring.signalMate.domain.entity.UserEntity;
+import com.spring.signalMate.domain.repository.PostRepository;
+import com.spring.signalMate.domain.repository.UsersRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

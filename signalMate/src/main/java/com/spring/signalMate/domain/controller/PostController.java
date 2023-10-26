@@ -1,8 +1,8 @@
-package com.spring.signalMate.controller;
+package com.spring.signalMate.domain.controller;
 
-import com.spring.signalMate.dto.PostDto;
-import com.spring.signalMate.dto.ResponseDto;
-import com.spring.signalMate.service.PostService;
+import com.spring.signalMate.domain.dto.PostDto;
+import com.spring.signalMate.domain.dto.ResponseDto;
+import com.spring.signalMate.domain.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

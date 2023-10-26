@@ -1,7 +1,11 @@
-package com.spring.signalMate.controller;
+package com.spring.signalMate.domain.controller;
 
-import com.spring.signalMate.dto.*;
-import com.spring.signalMate.service.AuthService;
+import com.spring.signalMate.domain.dto.ResponseDto;
+import com.spring.signalMate.domain.dto.SignInDto;
+import com.spring.signalMate.domain.dto.SignInResponseDto;
+import com.spring.signalMate.domain.dto.SignUpDto;
+import com.spring.signalMate.domain.dto.UserUpddateDto;
+import com.spring.signalMate.domain.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

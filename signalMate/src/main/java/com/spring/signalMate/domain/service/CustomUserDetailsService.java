@@ -1,7 +1,7 @@
-package com.spring.signalMate.service;
+package com.spring.signalMate.domain.service;
 
-import com.spring.signalMate.entity.UserEntity;
-import com.spring.signalMate.repository.UsersRepository;
+import com.spring.signalMate.domain.entity.UserEntity;
+import com.spring.signalMate.domain.repository.UsersRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

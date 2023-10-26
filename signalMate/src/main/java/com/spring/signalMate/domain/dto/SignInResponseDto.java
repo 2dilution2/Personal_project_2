@@ -1,6 +1,6 @@
-package com.spring.signalMate.dto;
+package com.spring.signalMate.domain.dto;
 
-import com.spring.signalMate.entity.UserEntity;
+import com.spring.signalMate.domain.entity.UserEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

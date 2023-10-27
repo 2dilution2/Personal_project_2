@@ -1,6 +1,6 @@
-package com.spring.signalMate.domain.repository;
+package com.spring.signalMate.domain.post.repository;
 
-import com.spring.signalMate.domain.entity.PostEntity;
+import com.spring.signalMate.domain.post.model.entity.PostEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

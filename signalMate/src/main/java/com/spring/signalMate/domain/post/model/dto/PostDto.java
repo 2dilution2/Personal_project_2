@@ -1,6 +1,6 @@
-package com.spring.signalMate.domain.dto;
+package com.spring.signalMate.domain.post.model.dto;
 
-import com.spring.signalMate.domain.constant.Symptom;
+import com.spring.signalMate.domain.post.model.constant.Symptom;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

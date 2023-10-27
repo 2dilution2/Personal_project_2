@@ -1,18 +1,16 @@
-package com.spring.signalMate.domain.dto;
+package com.spring.signalMate.domain.users.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SignInDto {
-
-    @NotBlank
+public class SignUpDto {
     private String email;
-    @NotBlank
     private String password;
+    private String passwordCheck;
+    private String nickname;
+    private String phoneNum;
 }

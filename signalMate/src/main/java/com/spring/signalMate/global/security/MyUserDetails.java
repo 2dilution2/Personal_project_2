@@ -1,6 +1,6 @@
-package com.spring.signalMate.domain.service;
+package com.spring.signalMate.global.security;
 
-import com.spring.signalMate.domain.entity.UserEntity;
+import com.spring.signalMate.domain.users.model.entity.UserEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

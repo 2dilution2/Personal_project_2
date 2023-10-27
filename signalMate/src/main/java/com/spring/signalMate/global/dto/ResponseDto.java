@@ -1,4 +1,4 @@
-package com.spring.signalMate.domain.dto;
+package com.spring.signalMate.global.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

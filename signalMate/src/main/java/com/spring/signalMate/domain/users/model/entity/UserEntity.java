@@ -1,9 +1,11 @@
-package com.spring.signalMate.domain.entity;
+package com.spring.signalMate.domain.users.model.entity;
 
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.spring.signalMate.domain.dto.SignUpDto;
+import com.spring.signalMate.domain.users.model.dto.SignUpDto;
+import com.spring.signalMate.domain.post.model.entity.PostEntity;
+
 import lombok.*;
 
 import java.time.LocalDateTime;

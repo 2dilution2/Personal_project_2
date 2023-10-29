@@ -8,12 +8,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Arrays;
 import java.util.Collection;
 
-public class MyUserDetails implements UserDetails {
+public class CustomUserDetails implements UserDetails {
 
     private String email;
     private String password;
 
-    public MyUserDetails(UserEntity users) {
+    public CustomUserDetails(UserEntity users) {
         this.email = users.getEmail();
         this.password = users.getPassword();
     }
